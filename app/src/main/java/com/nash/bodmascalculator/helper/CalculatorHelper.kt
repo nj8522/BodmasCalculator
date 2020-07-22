@@ -53,7 +53,13 @@ open class CalculatorHelper {
 //        return numberOne / numberTwo
 //    }
 
-
+    /**
+     * This method return Multiplied value of two numbers
+     * @author Nash
+     * @param numberOne - this is number One
+     * @param numberTwo - this is number  Two
+     * @return numberOne / numberTwo
+     */
     fun testCaseDiv(numberOne: Double, numberTwo: Double): Double? {
 
             if (numberTwo == 0.0) {
