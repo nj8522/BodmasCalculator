@@ -1,11 +1,11 @@
 package com.nash.bodmascalculator.helper
 
 import com.nash.bodmascalculator.main.Calculator
-import com.nash.bodmascalculator.main.Calculator.Companion.calculatorTokens
-import com.nash.bodmascalculator.main.Calculator.Companion.findSumClass
-import com.nash.bodmascalculator.main.Calculator.Companion.operatorStack
-import com.nash.bodmascalculator.main.Calculator.Companion.separateNumber
-import com.nash.bodmascalculator.main.Calculator.Companion.valueStack
+import com.nash.bodmascalculator.main.Calculator.calculatorCompanion.calculatorTokens
+import com.nash.bodmascalculator.main.Calculator.calculatorCompanion.findSumClass
+import com.nash.bodmascalculator.main.Calculator.calculatorCompanion.operatorStack
+import com.nash.bodmascalculator.main.Calculator.calculatorCompanion.separateNumber
+import com.nash.bodmascalculator.main.Calculator.calculatorCompanion.valueStack
 
 open class InputProcessor {
 
@@ -14,8 +14,10 @@ open class InputProcessor {
 
 
     private var elementOfInputProcessor = 0
-    private var  flag : Boolean = false
-    private var firstIndexOfSeparate = 0
+    public var  flag : Boolean = false
+        get() = field
+        set(value) {field = value}
+    var firstIndexOfSeparate = 0
 
     fun getElementOfInputProcessor() : Int{
         return  elementOfInputProcessor
@@ -23,22 +25,6 @@ open class InputProcessor {
 
     fun setElementOfInputProcessor(elementOfInputProcessor : Int){
         this.elementOfInputProcessor = elementOfInputProcessor
-    }
-
-    fun getFlag() : Boolean{
-        return  flag
-    }
-
-    fun setFlag(flag : Boolean){
-        this.flag = flag
-    }
-
-    fun getFirstIndexOfSeparate(): Int{
-        return  firstIndexOfSeparate
-    }
-
-    fun setFirstIndexOfSeparate(firstIndexOfSeparator : Int){
-        this.firstIndexOfSeparate = firstIndexOfSeparator
     }
 
 
@@ -61,21 +47,21 @@ open class InputProcessor {
                 expression[elementOfInputProcessor] == ')'
 
             ) {
-                if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) == 4 ||
-                    calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) == 5
+                if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()).equals(4) ||
+                    calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()).equals(5)
                 ) {
 
-                    if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) == 4) {
+                    if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()).equals(4)) {
 
 
-                        setFlag(true)
+                        flag = true
                         operatorStack.push(expression[elementOfInputProcessor].toString())
-                        setFirstIndexOfSeparate(elementOfInputProcessor + 1)
-                        elementOfInputProcessor++
+                        firstIndexOfSeparate = elementOfInputProcessor + 1
+                        ++elementOfInputProcessor
                         continue
-                    }   else if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) == 5) {
+                    }   else if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()).equals(5)) {
 
-                        if (getFlag()) {
+                        if (flag) {
                             flag = false
                             if (!valueStack.isEmpty()) {
 
@@ -86,15 +72,15 @@ open class InputProcessor {
                             }
 
                             operatorStack.pop()
-                            elementOfInputProcessor++
-                            setFirstIndexOfSeparate(elementOfInputProcessor + 1)
+                            ++elementOfInputProcessor
+                            firstIndexOfSeparate = elementOfInputProcessor + 1
                             continue
 
-                        } else if (calculatorTokens.getPriorityFormExp(operatorStack.top()) == 4) {
+                        } else if (calculatorTokens.getPriorityFormExp(operatorStack.top()).equals(4)) {
 
                             operatorStack.pop()
-                            elementOfInputProcessor++
-                            setFirstIndexOfSeparate(elementOfInputProcessor + 1)
+                            firstIndexOfSeparate = elementOfInputProcessor + 1
+                            ++elementOfInputProcessor
                             continue
                         } else if (calculatorTokens.getPriorityFormExp(operatorStack.top()) < 4) {
                             while (calculatorTokens.getPriorityFormExp(operatorStack.top()) != 4) {
@@ -118,11 +104,11 @@ open class InputProcessor {
                             elementOfInputProcessor = expression.length
                         }
 
-                        elementOfInputProcessor++
+                        ++elementOfInputProcessor
                         continue
-                    } else if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor - 1].toString()) == 5) {
+                    } else if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor - 1].toString()).equals(5)) {
                         operatorStack.push(expression[elementOfInputProcessor].toString())
-                        elementOfInputProcessor++
+                        ++elementOfInputProcessor
                         continue
                     } else {
                         operatorStack.push(expression[elementOfInputProcessor].toString())
@@ -136,16 +122,16 @@ open class InputProcessor {
 
                         operatorStack.push(expression[elementOfInputProcessor].toString())
 
-                        if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor - 1].toString()) == 5) {
-                            elementOfInputProcessor++
+                        if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor - 1].toString()).equals(5)) {
+                            ++elementOfInputProcessor
                             continue
                         }
                     } else {
 
-                        if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor - 1].toString()) == 5) {
+                        if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor - 1].toString()).equals(5)) {
                             findSumClass.findSum()
                             operatorStack.push(expression[elementOfInputProcessor].toString())
-                            elementOfInputProcessor++
+                            ++elementOfInputProcessor
                             continue
 
                         }
@@ -153,7 +139,7 @@ open class InputProcessor {
                         separateNumber.separateNumber(elementOfInputProcessor, expression)
                         findSumClass.findSum()
                         operatorStack.push(expression[elementOfInputProcessor].toString())
-                        elementOfInputProcessor++
+                        ++elementOfInputProcessor
                         continue
                     }
 
@@ -162,7 +148,7 @@ open class InputProcessor {
                        calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) || flag
                 ) {
 
-                    if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor - 1].toString()) == 5) {
+                    if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor - 1].toString()).equals(5)) {
 
                         if (calculatorTokens.getPriorityFormExp(operatorStack.top()) in 2..3) {
                             findSumClass.findSum()
@@ -181,7 +167,7 @@ open class InputProcessor {
                         findSumClass.findSum()
                     }
                     operatorStack.push(expression[elementOfInputProcessor].toString())
-                    elementOfInputProcessor++
+                    ++elementOfInputProcessor
                     continue
                 }
 
@@ -192,7 +178,7 @@ open class InputProcessor {
             }
 
 
-            elementOfInputProcessor++
+            ++elementOfInputProcessor
         } //while
 
         if (!operatorStack.isEmpty()) {

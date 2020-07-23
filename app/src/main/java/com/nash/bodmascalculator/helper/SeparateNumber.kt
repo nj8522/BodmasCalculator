@@ -1,17 +1,16 @@
 package com.nash.bodmascalculator.helper
 
 import com.nash.bodmascalculator.main.Calculator
-import com.nash.bodmascalculator.main.Calculator.Companion.findSumClass
-import com.nash.bodmascalculator.main.Calculator.Companion.operatorStack
-import com.nash.bodmascalculator.main.Calculator.Companion.valueStack
+import com.nash.bodmascalculator.main.Calculator.calculatorCompanion.findSumClass
+import com.nash.bodmascalculator.main.Calculator.calculatorCompanion.inputProcessor
+import com.nash.bodmascalculator.main.Calculator.calculatorCompanion.operatorStack
+import com.nash.bodmascalculator.main.Calculator.calculatorCompanion.valueStack
 import java.lang.Double
 import java.lang.Exception
 import java.lang.IllegalArgumentException
 
 open class SeparateNumber {
 
-    val inputProcessor = InputProcessor()
-    val calculator = Calculator()
     private var separatedNumber = String()
 
 
@@ -24,8 +23,9 @@ open class SeparateNumber {
      */
      fun separateNumber(currentIndex: Int, expression: String) {
 
-        separatedNumber = expression.substring(inputProcessor.getFirstIndexOfSeparate(), currentIndex)
-        inputProcessor.setFirstIndexOfSeparate(currentIndex + 1)
+
+        separatedNumber = expression.substring(inputProcessor.firstIndexOfSeparate, currentIndex)
+        inputProcessor.firstIndexOfSeparate = currentIndex + 1
         try {
             val checkValueIsNumber = Double.parseDouble(separatedNumber)
         } catch (e: IllegalArgumentException) {

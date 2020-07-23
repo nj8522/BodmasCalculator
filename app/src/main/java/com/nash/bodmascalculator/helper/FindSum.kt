@@ -1,10 +1,11 @@
 package com.nash.bodmascalculator.helper
 
 import com.nash.bodmascalculator.main.Calculator
-import com.nash.bodmascalculator.main.Calculator.Companion.calculatorHelper
-import com.nash.bodmascalculator.main.Calculator.Companion.calculatorTokens
-import com.nash.bodmascalculator.main.Calculator.Companion.operatorStack
-import com.nash.bodmascalculator.main.Calculator.Companion.valueStack
+import com.nash.bodmascalculator.main.Calculator.calculatorCompanion.calculatorHelper
+import com.nash.bodmascalculator.main.Calculator.calculatorCompanion.calculatorTokens
+import com.nash.bodmascalculator.main.Calculator.calculatorCompanion.inputProcessor
+import com.nash.bodmascalculator.main.Calculator.calculatorCompanion.operatorStack
+import com.nash.bodmascalculator.main.Calculator.calculatorCompanion.valueStack
 import java.lang.Double
 import java.lang.Exception
 import java.lang.IllegalArgumentException
@@ -12,12 +13,14 @@ import java.lang.NullPointerException
 
 open class FindSum {
 
-    //val helperClass = HelperClass()
-    val inputProcessor = InputProcessor()
-    val calculator = Calculator()
+
+
 
     private var inputOne = 0.0
     private var inputTwo = 0.0
+
+    var flag : Boolean = false
+
 
 
     /**
@@ -29,7 +32,8 @@ open class FindSum {
 
 
         if (!valueStack.isEmpty()) {
-            if (inputProcessor.getFlag() && calculatorTokens.getPriorityFormExp(operatorStack.top()) > 1 &&
+            if (inputProcessor.flag &&
+                calculatorTokens.getPriorityFormExp(operatorStack.top()) > 1 &&
                 calculatorTokens.getPriorityFormExp(operatorStack.top()) < 4
             ) {
 
@@ -47,9 +51,12 @@ open class FindSum {
                     operatorStack.pop()
                     return
                 }
-            } else if (inputProcessor.getFlag()) {
+            }
+            else if (inputProcessor.flag) {
+
                 return
-            } else {
+            }
+            else {
                 try {
                     inputTwo = Double.parseDouble(valueStack.top())
                     valueStack.pop()
@@ -65,7 +72,8 @@ open class FindSum {
                 }
             }
 
-        } else {
+        }
+        else {
             println("Empty")
             return
         }

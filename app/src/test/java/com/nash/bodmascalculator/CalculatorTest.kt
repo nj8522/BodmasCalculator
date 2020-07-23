@@ -10,7 +10,8 @@ import org.junit.jupiter.params.provider.MethodSource
 class CalculatorTest {
 
 
-    val calculator = Calculator()
+    val inputProcessor = InputProcessor()
+    val calculator = Calculator.calculatorCompanion
 
     /**
      * The companion Object contains an argument method
@@ -51,9 +52,8 @@ class CalculatorTest {
     @ParameterizedTest
     @MethodSource("arguments")
     fun expressionTester(inputValue : String, expectedValue : String){
-//        val actual = inputProcessor.inputProcessor(inputValue)
-//
-//        assertEquals(expectedValue,actual)
+        val actual = inputProcessor.inputProcessor(inputValue)
+        assertEquals(expectedValue,actual)
     }
 
 
