@@ -2,7 +2,7 @@ package com.nash.bodmascalculator.helper
 
 
 
-class TokenStack {
+open class TokenStack {
 
     private val valuesFromToken : MutableList<String> = arrayListOf()
 

@@ -1,14 +1,15 @@
 package com.nash.bodmascalculator
 
+import com.nash.bodmascalculator.helper.InputProcessor
 import com.nash.bodmascalculator.main.Calculator
 import junit.framework.Assert.assertEquals
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 
 class CalculatorTest {
 
+    val inputProcessor = InputProcessor()
     val calculator = Calculator()
 
     /**
@@ -50,7 +51,7 @@ class CalculatorTest {
     @ParameterizedTest
     @MethodSource("arguments")
     fun expressionTester(inputValue : String, expectedValue : String){
-        val actual = calculator.inputProcessor(inputValue)
+        val actual = inputProcessor.inputProcessor(inputValue)
 
         assertEquals(expectedValue,actual)
     }
