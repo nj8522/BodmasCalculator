@@ -1,6 +1,10 @@
 package com.nash.bodmascalculator.helper
 
 import com.nash.bodmascalculator.main.Calculator
+import com.nash.bodmascalculator.main.Calculator.Companion.calculatorHelper
+import com.nash.bodmascalculator.main.Calculator.Companion.calculatorTokens
+import com.nash.bodmascalculator.main.Calculator.Companion.operatorStack
+import com.nash.bodmascalculator.main.Calculator.Companion.valueStack
 import java.lang.Double
 import java.lang.Exception
 import java.lang.IllegalArgumentException
@@ -24,36 +28,36 @@ open class FindSum {
      fun findSum() {
 
 
-        if (!calculator.valueStack.isEmpty()) {
-            if (inputProcessor.getFlag() && calculator.calculatorTokens.getPriorityFormExp(calculator.operatorStack.top()) > 1 &&
-                calculator.calculatorTokens.getPriorityFormExp(calculator.operatorStack.top()) < 4
+        if (!valueStack.isEmpty()) {
+            if (inputProcessor.getFlag() && calculatorTokens.getPriorityFormExp(operatorStack.top()) > 1 &&
+                calculatorTokens.getPriorityFormExp(operatorStack.top()) < 4
             ) {
 
                 try {
-                    inputTwo = Double.parseDouble(calculator.valueStack.top())
-                    calculator.valueStack.pop()
-                    inputOne = Double.parseDouble(calculator.valueStack.top())
-                    calculator.valueStack.pop()
+                    inputTwo = Double.parseDouble(valueStack.top())
+                    valueStack.pop()
+                    inputOne = Double.parseDouble(valueStack.top())
+                    valueStack.pop()
                 } catch (e: IllegalArgumentException) {
                     println("Please Type in Numbers")
-                    calculator.operatorStack.pop()
+                    operatorStack.pop()
                     return
                 } catch (e: Exception) {
                     println(e.message.toString())
-                    calculator.operatorStack.pop()
+                    operatorStack.pop()
                     return
                 }
             } else if (inputProcessor.getFlag()) {
                 return
             } else {
                 try {
-                    inputTwo = Double.parseDouble(calculator.valueStack.top())
-                    calculator.valueStack.pop()
-                    inputOne = Double.parseDouble(calculator.valueStack.top())
-                    calculator.valueStack.pop()
+                    inputTwo = Double.parseDouble(valueStack.top())
+                    valueStack.pop()
+                    inputOne = Double.parseDouble(valueStack.top())
+                    valueStack.pop()
                 } catch (e: IllegalArgumentException) {
                     println("Enter Number")
-                    calculator.operatorStack.pop()
+                    operatorStack.pop()
                     return
                 } catch (e: Exception) {
                     println(e.message.toString())
@@ -70,24 +74,24 @@ open class FindSum {
         var result = 0.0
 
         try {
-            when (calculator.operatorStack.top()) {
+            when (operatorStack.top()) {
 
-                "+" -> result = calculator.calculatorHelper.addTwoNumber(inputOne, inputTwo)
-                "-" -> result = calculator.calculatorHelper.subTwoNumbers(inputOne, inputTwo)
-                "/" -> result = calculator.calculatorHelper.testCaseDiv(inputOne, inputTwo)!!
-                "x" -> result = calculator.calculatorHelper.multiplyTwoNumbers(inputOne, inputTwo)
+                "+" -> result = calculatorHelper.addTwoNumber(inputOne, inputTwo)
+                "-" -> result = calculatorHelper.subTwoNumbers(inputOne, inputTwo)
+                "/" -> result = calculatorHelper.testCaseDiv(inputOne, inputTwo)!!
+                "x" -> result = calculatorHelper.multiplyTwoNumbers(inputOne, inputTwo)
 
             }
         } catch (e: NullPointerException) {
             println("/ by zero")
-            calculator.operatorStack.removeAll()
-            calculator.valueStack.removeAll()
+            operatorStack.removeAll()
+            valueStack.removeAll()
             return
         }
 
 
-        calculator.operatorStack.pop()
-        calculator.valueStack.push(result.toString())
+        operatorStack.pop()
+        valueStack.push(result.toString())
 
     }//fun
 

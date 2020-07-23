@@ -1,18 +1,17 @@
 package com.nash.bodmascalculator.helper
 
 import com.nash.bodmascalculator.main.Calculator
+import com.nash.bodmascalculator.main.Calculator.Companion.calculatorTokens
+import com.nash.bodmascalculator.main.Calculator.Companion.findSumClass
+import com.nash.bodmascalculator.main.Calculator.Companion.operatorStack
+import com.nash.bodmascalculator.main.Calculator.Companion.separateNumber
+import com.nash.bodmascalculator.main.Calculator.Companion.valueStack
 
 open class InputProcessor {
 
-    //val helperClass = HelperClass()
 
-//    val operatorStack = TokenStack()
-//    val valueStack = TokenStack()
-//    val calculatorTokens = CalculatorTokens()
-//    val separateNumber = SeparateNumber()
-//    val findSumClass = FindSum()
-//    val calculatorHelper = CalculatorHelper()
-      val calculator = Calculator()
+
+
 
     private var elementOfInputProcessor = 0
     private var  flag : Boolean = false
@@ -62,44 +61,44 @@ open class InputProcessor {
                 expression[elementOfInputProcessor] == ')'
 
             ) {
-                if (calculator.calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) == 4 ||
-                    calculator.calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) == 5
+                if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) == 4 ||
+                    calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) == 5
                 ) {
 
-                    if (calculator.calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) == 4) {
+                    if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) == 4) {
 
 
                         setFlag(true)
-                        calculator.operatorStack.push(expression[elementOfInputProcessor].toString())
+                        operatorStack.push(expression[elementOfInputProcessor].toString())
                         setFirstIndexOfSeparate(elementOfInputProcessor + 1)
                         elementOfInputProcessor++
                         continue
-                    }   else if (calculator.calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) == 5) {
+                    }   else if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) == 5) {
 
                         if (getFlag()) {
                             flag = false
-                            if (!calculator.valueStack.isEmpty()) {
+                            if (!valueStack.isEmpty()) {
 
-                                calculator.separateNumber.separateNumber(elementOfInputProcessor, expression)
-                                while (calculator.calculatorTokens.getPriorityFormExp(calculator.operatorStack.top()) != 4) {
-                                    calculator.findSumClass.findSum()
+                                separateNumber.separateNumber(elementOfInputProcessor, expression)
+                                while (calculatorTokens.getPriorityFormExp(operatorStack.top()) != 4) {
+                                    findSumClass.findSum()
                                 }
                             }
 
-                            calculator.operatorStack.pop()
+                            operatorStack.pop()
                             elementOfInputProcessor++
                             setFirstIndexOfSeparate(elementOfInputProcessor + 1)
                             continue
 
-                        } else if (calculator.calculatorTokens.getPriorityFormExp(calculator.operatorStack.top()) == 4) {
+                        } else if (calculatorTokens.getPriorityFormExp(operatorStack.top()) == 4) {
 
-                            calculator.operatorStack.pop()
+                            operatorStack.pop()
                             elementOfInputProcessor++
                             setFirstIndexOfSeparate(elementOfInputProcessor + 1)
                             continue
-                        } else if (calculator.calculatorTokens.getPriorityFormExp(calculator.operatorStack.top()) < 4) {
-                            while (calculator.calculatorTokens.getPriorityFormExp(calculator.operatorStack.top()) != 4) {
-                                calculator.findSumClass.findSum()
+                        } else if (calculatorTokens.getPriorityFormExp(operatorStack.top()) < 4) {
+                            while (calculatorTokens.getPriorityFormExp(operatorStack.top()) != 4) {
+                                  findSumClass.findSum()
                             }
                             continue
                         } else {
@@ -107,105 +106,105 @@ open class InputProcessor {
                         }
                     }
 
-                } else if (calculator.operatorStack.isEmpty()) {
+                } else if (operatorStack.isEmpty()) {
 
-                    if (calculator.valueStack.isEmpty() && elementOfInputProcessor == 0) {
+                    if (valueStack.isEmpty() && elementOfInputProcessor == 0) {
 
-                        if (calculator.calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) > 1) {
+                        if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) > 1) {
                             //firstIndexOfSeparate = elementOfInputProcessor + 1
-                            calculator.operatorStack.removeAll()
-                            calculator.valueStack.removeAll()
+                            operatorStack.removeAll()
+                            valueStack.removeAll()
                             println("Unknown Character At Beginning")
                             elementOfInputProcessor = expression.length
                         }
 
                         elementOfInputProcessor++
                         continue
-                    } else if (calculator.calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor - 1].toString()) == 5) {
-                        calculator.operatorStack.push(expression[elementOfInputProcessor].toString())
+                    } else if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor - 1].toString()) == 5) {
+                        operatorStack.push(expression[elementOfInputProcessor].toString())
                         elementOfInputProcessor++
                         continue
                     } else {
-                        calculator.operatorStack.push(expression[elementOfInputProcessor].toString())
+                        operatorStack.push(expression[elementOfInputProcessor].toString())
                     }
 
-                } else if (calculator.calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) >=
-                    calculator.calculatorTokens.getPriorityFormExp(calculator.operatorStack.top())
+                } else if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) >=
+                          calculatorTokens.getPriorityFormExp(operatorStack.top())
                 ) {
 
-                    if (calculator.calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) > 1) {
+                    if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) > 1) {
 
-                        calculator.operatorStack.push(expression[elementOfInputProcessor].toString())
+                        operatorStack.push(expression[elementOfInputProcessor].toString())
 
-                        if (calculator.calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor - 1].toString()) == 5) {
+                        if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor - 1].toString()) == 5) {
                             elementOfInputProcessor++
                             continue
                         }
                     } else {
 
-                        if (calculator.calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor - 1].toString()) == 5) {
-                            calculator.findSumClass.findSum()
-                            calculator.operatorStack.push(expression[elementOfInputProcessor].toString())
+                        if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor - 1].toString()) == 5) {
+                            findSumClass.findSum()
+                            operatorStack.push(expression[elementOfInputProcessor].toString())
                             elementOfInputProcessor++
                             continue
 
                         }
 
-                        calculator.separateNumber.separateNumber(elementOfInputProcessor, expression)
-                        calculator.findSumClass.findSum()
-                        calculator.operatorStack.push(expression[elementOfInputProcessor].toString())
+                        separateNumber.separateNumber(elementOfInputProcessor, expression)
+                        findSumClass.findSum()
+                        operatorStack.push(expression[elementOfInputProcessor].toString())
                         elementOfInputProcessor++
                         continue
                     }
 
 
-                } else if (calculator.calculatorTokens.getPriorityFormExp(calculator.operatorStack.top()) >
-                    calculator.calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) || flag
+                } else if (calculatorTokens.getPriorityFormExp(operatorStack.top()) >
+                       calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) || flag
                 ) {
 
-                    if (calculator.calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor - 1].toString()) == 5) {
+                    if (calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor - 1].toString()) == 5) {
 
-                        if (calculator.calculatorTokens.getPriorityFormExp(calculator.operatorStack.top()) in 2..3) {
-                            calculator.findSumClass.findSum()
+                        if (calculatorTokens.getPriorityFormExp(operatorStack.top()) in 2..3) {
+                            findSumClass.findSum()
                         }
-                        calculator.operatorStack.push(expression[elementOfInputProcessor].toString())
+                        operatorStack.push(expression[elementOfInputProcessor].toString())
                         elementOfInputProcessor++
                         continue
                     }
 
-                    calculator.separateNumber.separateNumber(elementOfInputProcessor, expression)
-                    calculator.findSumClass.findSum()
-                    while (!calculator.operatorStack.isEmpty() &&
-                        calculator.calculatorTokens.getPriorityFormExp(calculator.operatorStack.top()) >
-                        calculator.calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) && !flag
+                    separateNumber.separateNumber(elementOfInputProcessor, expression)
+                    findSumClass.findSum()
+                    while (!operatorStack.isEmpty() &&
+                        calculatorTokens.getPriorityFormExp(operatorStack.top()) >
+                        calculatorTokens.getPriorityFormExp(expression[elementOfInputProcessor].toString()) && !flag
                     ) {
-                        calculator.findSumClass.findSum()
+                        findSumClass.findSum()
                     }
-                    calculator.operatorStack.push(expression[elementOfInputProcessor].toString())
+                    operatorStack.push(expression[elementOfInputProcessor].toString())
                     elementOfInputProcessor++
                     continue
                 }
 
-                calculator.separateNumber.separateNumber(elementOfInputProcessor, expression)
+                separateNumber.separateNumber(elementOfInputProcessor, expression)
             }// if
             else if (elementOfInputProcessor == expression.length - 1) {
-                calculator.separateNumber.separateNumber(expression.length, expression)
+                separateNumber.separateNumber(expression.length, expression)
             }
 
 
             elementOfInputProcessor++
         } //while
 
-        if (!calculator.operatorStack.isEmpty()) {
-            while (!calculator.operatorStack.isEmpty()) {
-                calculator.findSumClass.findSum()
+        if (!operatorStack.isEmpty()) {
+            while (!operatorStack.isEmpty()) {
+                findSumClass.findSum()
             }
         }
 
-        if (calculator.valueStack.isEmpty()) {
+        if (valueStack.isEmpty()) {
             return "0.0"
         }
-        return calculator.valueStack.top()
+        return valueStack.top()
     }//fun
 
 

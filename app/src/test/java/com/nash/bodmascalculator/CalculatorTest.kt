@@ -9,7 +9,7 @@ import org.junit.jupiter.params.provider.MethodSource
 
 class CalculatorTest {
 
-    val inputProcessor = InputProcessor()
+
     val calculator = Calculator()
 
     /**
@@ -51,9 +51,9 @@ class CalculatorTest {
     @ParameterizedTest
     @MethodSource("arguments")
     fun expressionTester(inputValue : String, expectedValue : String){
-        val actual = inputProcessor.inputProcessor(inputValue)
-
-        assertEquals(expectedValue,actual)
+//        val actual = inputProcessor.inputProcessor(inputValue)
+//
+//        assertEquals(expectedValue,actual)
     }
 
 

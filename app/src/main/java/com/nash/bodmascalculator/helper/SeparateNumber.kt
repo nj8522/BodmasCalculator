@@ -1,6 +1,9 @@
 package com.nash.bodmascalculator.helper
 
 import com.nash.bodmascalculator.main.Calculator
+import com.nash.bodmascalculator.main.Calculator.Companion.findSumClass
+import com.nash.bodmascalculator.main.Calculator.Companion.operatorStack
+import com.nash.bodmascalculator.main.Calculator.Companion.valueStack
 import java.lang.Double
 import java.lang.Exception
 import java.lang.IllegalArgumentException
@@ -27,20 +30,20 @@ open class SeparateNumber {
             val checkValueIsNumber = Double.parseDouble(separatedNumber)
         } catch (e: IllegalArgumentException) {
             println("Unknown Characters")
-            calculator.operatorStack.removeAll()
-            calculator.valueStack.removeAll()
+            operatorStack.removeAll()
+            valueStack.removeAll()
             inputProcessor.setElementOfInputProcessor(expression.length)
             return
         } catch (e: Exception) {
             println(e.message.toString())
         }
 
-        calculator.valueStack.push(separatedNumber)
+        valueStack.push(separatedNumber)
 
 
         if (currentIndex == expression.length)
-            while (!calculator.operatorStack.isEmpty())
-                calculator.findSumClass.findSum()
+            while (!operatorStack.isEmpty())
+                findSumClass.findSum()
     }
 
 
