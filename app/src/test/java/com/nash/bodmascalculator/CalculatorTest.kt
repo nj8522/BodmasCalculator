@@ -1,7 +1,6 @@
 package com.nash.bodmascalculator
 
-import com.nash.bodmascalculator.helper.InputProcessor
-import com.nash.bodmascalculator.main.Calculator
+import com.nash.bodmascalculator.helper.ExpressionProcessor
 import junit.framework.Assert.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -10,8 +9,9 @@ import org.junit.jupiter.params.provider.MethodSource
 class CalculatorTest {
 
 
-    val inputProcessor = InputProcessor()
-    val calculator = Calculator.calculatorCompanion
+    val inputProcessor = ExpressionProcessor()
+    val instanceOfClass = InstanceOfClass
+    //val calculator = Calculator.calculatorCompanion
 
     /**
      * The companion Object contains an argument method
@@ -37,9 +37,6 @@ class CalculatorTest {
                 Arguments.of("/56247","0.0"),
                 Arguments.of("x53323","0.0"),
                 Arguments.of("xsadfasd+sdsd","0.0")
-
-
-              //((3x4)+(4+2)/(123-321)x(456321/23)-(2312+1))
             )
     }
 
@@ -52,12 +49,8 @@ class CalculatorTest {
     @ParameterizedTest
     @MethodSource("arguments")
     fun expressionTester(inputValue : String, expectedValue : String){
-        val actual = inputProcessor.inputProcessor(inputValue)
+        val actual = instanceOfClass.inputProcessor.inputProcessor(inputValue)
         assertEquals(expectedValue,actual)
     }
-
-
-
-
 
 }
